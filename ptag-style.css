@@ -1,1 +1,31 @@
-.surcus_ptag label { margin-bottom: 10px; display: block; font-width: 700;}
+.surcus_ptag label
+{
+    margin-bottom: 10px;
+    display: block;
+    font-width: 700;
+}
+
+.surcus-ptag__label{
+    line-height: 1.4em;
+}
+
+.surcus-ptag__label::before
+{
+    font: 400 20px/1 dashicons;
+    content: "\f323";
+    color: #888;
+    font-size: 20px;
+    display: inline-block;
+    padding: 0px 6px 0px 0px;
+    top: 0px;
+    left: -1px;
+    position: relative;
+    vertical-align: top;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none !important;
+}
+
+.surcus-ptag__tag
+{
+    font-weight: 700
+}
