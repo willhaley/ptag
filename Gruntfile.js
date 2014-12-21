@@ -1,61 +1,61 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
-            pkg: grunt.file.readJSON('package.json'),
-            uglify: {
-                options: {
-                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-                },
-                build: {
-                    src: 'ptag-script.js',
-                    dest: 'ptag-script.min.js'
-                }
+        pkg: grunt.file.readJSON('package.json'),
+        uglify: {
+            options: {
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
-            jshint: {
+            build: {
+                src: 'ptag-script.js',
+                dest: 'ptag-script.min.js'
+            }
+        },
+        jshint: {
+            options: {
+                quotmark: 'single',
+                curly: true,
+                eqeqeq: true,
+                eqnull: true,
+                browser: true,
+                globals: {jQuery: true, tagBox: true}
+            },
+            files: {
+                src: ['ptag-script.js']
+            }
+        },
+        autoprefixer: {
+
+            options: {
+                browsers: ['last 2 versions', 'ie 8', 'ie 9']
+            },
+
+            no_dest: {
+                src: 'ptag-style.css'
+            }
+
+        },
+        cssmin: {
+            add_banner: {
                 options: {
-                    quotmark : 'single',
-                    curly: true,
-                    eqeqeq: true,
-                    eqnull: true,
-                    browser: true,
-                    globals: {jQuery: true, tagBox: true}
+                    banner: '/* <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */'
                 },
                 files: {
-                    src: ['ptag-script.js']
-                }
-            },
-            autoprefixer: {
-
-                options: {
-                    browsers: ['last 2 versions', 'ie 8', 'ie 9']
-                },
-
-                no_dest: {
-                    src: 'ptag-style.css'
-                }
-
-            },
-            cssmin: {
-                add_banner: {
-                    options: {
-                        banner: '/* <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */'
-                    },
-                    files: {
-                        'ptag-style.min.css': ['ptag-style.css']
-                    }
-                }
-            },
-            watch:{
-                js:{
-                    files: 'ptag-script.js',
-                    tasks: ['jshint', 'uglify']
-                },
-                css:{
-                    files: 'ptag-style.css',
-                    tasks: ['autoprefixer', 'cssmin']
+                    'ptag-style.min.css': ['ptag-style.css']
                 }
             }
+        },
+        watch: {
+            js: {
+                files: 'ptag-script.js',
+                tasks: ['jshint', 'uglify']
+            },
+            css: {
+                files: 'ptag-style.css',
+                tasks: ['autoprefixer', 'cssmin']
+            }
+        }
     });
 
     // Load the plugin that provides the "uglify" task.
@@ -66,6 +66,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint', 'uglify', 'autoprefixer', 'cssmin'] );
+    grunt.registerTask('default', ['jshint', 'uglify', 'autoprefixer', 'cssmin']);
 
 };

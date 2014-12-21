@@ -23,6 +23,7 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 		const CUSTOM_FIELD_NAME = '_surcus_ptag';
 
 		const EMPTY_VALUE = 'Not Set';
+
 		/**
 		 *  Adds in the hooks
 		 */
@@ -31,8 +32,8 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 			add_action( 'save_post', array( $this, 'save_post' ) );
 
-			add_action( 'load-post-new.php', array( $this, 'add_help_tag' ));
-			add_action( 'load-post.php', array( $this, 'add_help_tag' ));
+			add_action( 'load-post-new.php', array( $this, 'add_help_tag' ) );
+			add_action( 'load-post.php', array( $this, 'add_help_tag' ) );
 
 		}
 
@@ -138,7 +139,7 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 				$ptag = sanitize_text_field( $_REQUEST[ self::CUSTOM_FIELD_NAME ] );
 				delete_post_meta( $post_id, self::CUSTOM_FIELD_NAME );
 
-				if ( self::EMPTY_VALUE === $ptag ){
+				if ( self::EMPTY_VALUE === $ptag ) {
 					return;
 				}
 
@@ -148,44 +149,53 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 
 		}
 
-		function add_help_tag(){
+		function add_help_tag() {
 
-			$settings = array(
+			$settings       = array(
 				'title'    => 'Primary Tag',
 				'id'       => 'surcus_ptag',
-				'callback' => array( $this, 'get_contextual_help'),
+				'callback' => array( $this, 'get_contextual_help' ),
 			);
 			$current_screen = get_current_screen();
 			$current_screen->add_help_tab( $settings );
 		}
 
-		function get_contextual_help(){
+		function get_contextual_help() {
 			?>
-				<h3>Admin Area</h3>
-					An additional line is added to the Publish Metabox area that will display and allow you to assign the primary tag for the post.
-					<ul>
-						<li>The primary tag must be selected from tags that are already associated with the post.  You cannot mark a tag that isn't associated with post as a primary tag.</li>
-						<li>If a primary tag is not set for the post or no tags are associated with the post, the primary tag will state "Not Set"</li>
-						<li>If you removed the primary tag from the tags associated with the post, the post's priamry tag will also be removed.</li>
-						<li>To set a new or change a primary tag, you should click on the "edit" link adjacent to the primary tag text, and then use the dropdown that appears to make your selection.  Click "OK" to confirm the change, or "cancel" to revert back to the original state.</li>
-						<li>The new primary tag is not saved until you save the draft or update the post</li>
-					</ul>
-					<h3>Theme Usage</h3>
-						<p>
-							<strong>2 functions are provided for get the stored primary tag.</strong>
-						</p>
-						function the_primary_tag( {post_id (optional)}, { return (true | false) }),
-						<ul>
-							<li>returns / outputs a simple string of the primary tag name.</li>
-							<li>post_id, optional you can leave blank if in the loop.</li>
-							<li>return, optional, if false will echo out value, if true will return value.</li>
-						</ul>
-						function the_primary_tag_html( {post_id (optional)}, { return (true | false) }),
-						<ul>
-							<li>return / outputs the name of the primary tag wrapped in an anchor tag to that tag.</li>
-							<li>post_id, optional you can leave blank if in the loop.</li>
-							<li>return, optional, if false will echo out value, if true will return value.</li>
-						</ul>
+			<h3>Admin Area</h3>
+			An additional line is added to the Publish Metabox area that will display and allow you to assign the primary tag for the post.
+			<ul>
+				<li>The primary tag must be selected from tags that are already associated with the post. You cannot
+					mark a tag that isn't associated with post as a primary tag.
+				</li>
+				<li>If a primary tag is not set for the post or no tags are associated with the post, the primary tag
+					will state "Not Set"
+				</li>
+				<li>If you removed the primary tag from the tags associated with the post, the post's priamry tag will
+					also be removed.
+				</li>
+				<li>To set a new or change a primary tag, you should click on the "edit" link adjacent to the primary
+					tag text, and then use the dropdown that appears to make your selection. Click "OK" to confirm the
+					change, or "cancel" to revert back to the original state.
+				</li>
+				<li>The new primary tag is not saved until you save the draft or update the post</li>
+			</ul>
+			<h3>Theme Usage</h3>
+			<p>
+				<strong>2 functions are provided for get the stored primary tag.</strong>
+			</p>
+			function the_primary_tag( {post_id (optional)}, { return (true | false) }),
+			<ul>
+				<li>returns / outputs a simple string of the primary tag name.</li>
+				<li>post_id, optional you can leave blank if in the loop.</li>
+				<li>return, optional, if false will echo out value, if true will return value.</li>
+			</ul>
+			function the_primary_tag_html( {post_id (optional)}, { return (true | false) }),
+			<ul>
+				<li>return / outputs the name of the primary tag wrapped in an anchor tag to that tag.</li>
+				<li>post_id, optional you can leave blank if in the loop.</li>
+				<li>return, optional, if false will echo out value, if true will return value.</li>
+			</ul>
 		<?php
 		}
 
@@ -245,19 +255,19 @@ if ( ! function_exists( 'the_primary_tag_html' ) ) {
 
 		$ptag_name = the_primary_tag( $post_id, true );
 
-		if ( ! $ptag_name || is_wp_error( $ptag_name ) ){
+		if ( ! $ptag_name || is_wp_error( $ptag_name ) ) {
 			return false;
 		}
 
-		$ptag      = get_term_by( 'name', $ptag_name, 'post_tag' );
+		$ptag = get_term_by( 'name', $ptag_name, 'post_tag' );
 
-		if ( ! is_object( $ptag ) || is_wp_error( $ptag ) ){
+		if ( ! is_object( $ptag ) || is_wp_error( $ptag ) ) {
 			return false;
 		}
 
 		$ptag_link = get_term_link( $ptag, 'post_tag' );
 
-		if ( ! $ptag_link || is_wp_error( $ptag_link ) ){
+		if ( ! $ptag_link || is_wp_error( $ptag_link ) ) {
 			return false;
 		}
 

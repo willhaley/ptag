@@ -1,16 +1,14 @@
-.surcus_ptag label
-{
+.surcus_ptag label {
     margin-bottom: 10px;
     display: block;
     font-width: 700;
 }
 
-.surcus-ptag__label{
+.surcus-ptag__label {
     line-height: 1.4em;
 }
 
-.surcus-ptag__label::before
-{
+.surcus-ptag__label::before {
     font: 400 20px/1 dashicons;
     content: "\f323";
     color: #888;
@@ -25,7 +23,6 @@
     text-decoration: none !important;
 }
 
-.surcus-ptag__tag
-{
+.surcus-ptag__tag {
     font-weight: 700
 }
