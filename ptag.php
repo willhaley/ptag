@@ -22,6 +22,7 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 		 */
 		const CUSTOM_FIELD_NAME = '_surcus_ptag';
 
+		const EMPTY_VALUE = 'Not Set';
 		/**
 		 *  Adds in the hooks
 		 */
@@ -68,7 +69,7 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 			$ptag = sanitize_text_field( get_post_meta( $post->ID, $this::CUSTOM_FIELD_NAME, true ) );
 
 			if ( ! $ptag ) {
-				$ptag = 'Not Set';
+				$ptag = self::EMPTY_VALUE;
 			}
 
 			?>
@@ -136,6 +137,11 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 
 				$ptag = sanitize_text_field( $_REQUEST[ self::CUSTOM_FIELD_NAME ] );
 				delete_post_meta( $post_id, self::CUSTOM_FIELD_NAME );
+
+				if ( self::EMPTY_VALUE === $ptag ){
+					return;
+				}
+
 				add_post_meta( $post_id, self::CUSTOM_FIELD_NAME, $ptag, true );
 
 			}
@@ -238,8 +244,22 @@ if ( ! function_exists( 'the_primary_tag_html' ) ) {
 	function the_primary_tag_html( $post_id = null, $return = false, $classes = array() ) {
 
 		$ptag_name = the_primary_tag( $post_id, true );
+
+		if ( ! $ptag_name || is_wp_error( $ptag_name ) ){
+			return false;
+		}
+
 		$ptag      = get_term_by( 'name', $ptag_name, 'post_tag' );
+
+		if ( ! is_object( $ptag ) || is_wp_error( $ptag ) ){
+			return false;
+		}
+
 		$ptag_link = get_term_link( $ptag, 'post_tag' );
+
+		if ( ! $ptag_link || is_wp_error( $ptag_link ) ){
+			return false;
+		}
 
 		$html = sprintf( '<a href="%s" class="%s">%s</a>', $ptag_link, sanitize_text_field( implode( ' ', $classes ) ), $ptag_name );
 
