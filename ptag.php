@@ -33,7 +33,6 @@ if ( ! class_exists( 'Surcus_PTag' ) ) {
 			add_action( 'load-post-new.php', array( $this, 'add_help_tag' ));
 			add_action( 'load-post.php', array( $this, 'add_help_tag' ));
 
-//			add_filter('contextual_help',  array( $this, 'contextual_help' ), 10, 3);
 		}
 
 		/**

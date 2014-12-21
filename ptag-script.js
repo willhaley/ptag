@@ -53,6 +53,8 @@
     //Listen for any action taken on the tag box and rebuild the dropdown
     $(document).on( 'click', '.tagadd, .ntdelbutton', function(){
         surcusPTag.buildOptions($('.tagchecklist').find('span').text());
+        $('.surcus-ptag__tag').text( $('#surcus_ptag_selector').val() );
+
     });
 
     //Updated the displayed primary tag when drop down changed
